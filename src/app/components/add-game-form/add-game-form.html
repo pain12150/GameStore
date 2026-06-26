@@ -1,0 +1,87 @@
+<div class="form-container">
+  <div class="card-glow"></div>
+  
+  <div class="form-header">
+    <span class="form-icon">➕</span>
+    <div>
+      <h2>Add New Game</h2>
+      <p class="form-subtitle">Register a new key into the store inventory</p>
+    </div>
+  </div>
+
+  <!-- Bind form to the TS FormGroup structure -->
+  <form [formGroup]="gameForm" (ngSubmit)="onSubmit()" novalidate>
+    
+    <!-- Title Input Field -->
+    <div class="form-group">
+      <label for="title">Game Title</label>
+      <div class="input-container">
+        <span class="input-icon">📝</span>
+        <input 
+          id="title" 
+          type="text" 
+          formControlName="title" 
+          placeholder="e.g., Portal 3" 
+          class="form-control"
+          [ngClass]="{ 'is-invalid': title?.invalid && title?.touched }" 
+        />
+      </div>
+      
+      <!-- Render validation errors only if the user has touched the field and it has errors -->
+      @if (title?.invalid && title?.touched) {
+        <div class="error-feedback">
+          @if (title?.errors?.['required']) {
+            <small class="error-msg">
+              <span class="error-dot"></span> Title is required.
+            </small>
+          }
+          @if (title?.errors?.['titleLowercase']) {
+            <small class="error-msg">
+              <span class="error-dot"></span> Game title must start with a capitalized letter.
+            </small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Price Input Field -->
+    <div class="form-group">
+      <label for="price">Price ($ USD)</label>
+      <div class="input-container">
+        <span class="input-icon">💵</span>
+        <input 
+          id="price" 
+          type="number" 
+          formControlName="price" 
+          placeholder="0.00" 
+          class="form-control"
+          [ngClass]="{ 'is-invalid': price?.invalid && price?.touched }" 
+        />
+      </div>
+      
+      @if (price?.invalid && price?.touched) {
+        <div class="error-feedback">
+          @if (price?.errors?.['required']) {
+            <small class="error-msg">
+              <span class="error-dot"></span> Price is required.
+            </small>
+          }
+          @if (price?.errors?.['min']) {
+            <small class="error-msg">
+              <span class="error-dot"></span> Price must be at least $1.00.
+            </small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-bar">
+      <button type="submit" class="btn-submit">
+        <span class="btn-icon">⚡</span> Add Game
+      </button>
+      <a routerLink="/games" class="btn-cancel">Cancel</a>
+    </div>
+
+  </form>
+</div>

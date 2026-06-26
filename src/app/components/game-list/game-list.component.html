@@ -1,0 +1,103 @@
+<div class="inventory-dashboard">
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="logo-area">
+        <span class="icon">🎮</span>
+        <div>
+          <h1>GameKey Portal</h1>
+          <p class="subtitle">Real-time Stock Control Panel</p>
+        </div>
+      </div>
+      <div class="stats-badge">
+        <span class="label">Total Catalog:</span>
+        <span class="value">{{ games.length }} Games</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Add Game Glass Card -->
+  <section class="control-panel">
+    <h3>Add New Game Key</h3>
+    <div class="form-grid">
+      <div class="input-wrapper">
+        <label for="game-title">Game Title</label>
+        <div class="input-container">
+          <span class="input-icon">📝</span>
+          <input 
+            id="game-title" 
+            type="text" 
+            [(ngModel)]="newGameTitle" 
+            placeholder="e.g. Elden Ring" 
+            class="input-field" 
+          />
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <label for="game-price">Price ($ USD)</label>
+        <div class="input-container">
+          <span class="input-icon">💵</span>
+          <input 
+            id="game-price" 
+            type="number" 
+            [(ngModel)]="newGamePrice" 
+            placeholder="0.00" 
+            class="input-field" 
+          />
+        </div>
+      </div>
+
+      <button (click)="addGame()" class="btn-submit">
+        <span class="btn-icon">⚡</span> Add to Catalog
+      </button>
+    </div>
+  </section>
+
+  <!-- Inventory Grid Section -->
+  <main class="inventory-section">
+    @if (games.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">📂</div>
+        <h4>No Items in Inventory</h4>
+        <p>The catalog is currently empty. Use the control panel above to add a new game title.</p>
+      </div>
+    } @else {
+      <div class="game-grid">
+        @for (game of games; track game.id) {
+          <article class="game-card" [class.is-unavailable]="!game.available">
+            <div class="card-glow"></div>
+            
+            <div class="card-body">
+              <div class="card-header">
+                <span class="game-id">#{{ game.id }}</span>
+                <span class="price-tag">${{ game.price | number:'1.2-2' }}</span>
+              </div>
+              
+              <h2 class="game-title">{{ game.title }}</h2>
+              
+              <div class="card-footer">
+                @if (game.available) {
+                  <span class="status-badge status-in-stock">
+                    <span class="indicator"></span> In Stock
+                  </span>
+                } @else {
+                  <span class="status-badge status-out-of-stock">
+                    <span class="indicator"></span> Out of Stock
+                  </span>
+                }
+                
+                <div class="card-actions">
+                  <a [routerLink]="['/games', game.id]" class="btn-link">View Details</a>
+                  <button (click)="toggleAvailability(game)" class="btn-action">
+                    Toggle Status
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </main>
+</div>

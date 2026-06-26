@@ -1,0 +1,46 @@
+<div class="detail-container">
+  <div class="card-glow"></div>
+  
+  @if (game) {
+    <div class="detail-header">
+      <span class="console-icon">🎮</span>
+      <div>
+        <h2 class="detail-title">Game Details</h2>
+        <p class="detail-subtitle">{{ game.title }}</p>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="info-row">
+        <span class="info-label">Product ID</span>
+        <span class="info-value id-badge">#{{ game.id }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Standard Price</span>
+        <span class="info-value price-tag">${{ game.price | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Inventory Status</span>
+        <span class="status-badge" [ngClass]="game.available ? 'status-in-stock' : 'status-out-of-stock'">
+          <span class="indicator"></span>
+          {{ game.available ? 'In Stock' : 'Out of Stock' }}
+        </span>
+      </div>
+    </div>
+  } @else {
+    <div class="error-state">
+      <span class="error-icon">⚠️</span>
+      <h3 class="error-title">Game Not Found</h3>
+      <p class="error-msg">The requested game ID does not exist in the active catalog.</p>
+    </div>
+  }
+  
+  <div class="action-bar">
+    <!-- routerLink handles navigation back to the catalog without reloading -->
+    <a routerLink="/games" class="btn-back">
+      <span class="arrow">←</span> Back to Catalog
+    </a>
+  </div>
+</div>
