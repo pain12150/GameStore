@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { GameListComponent } from './components/game-list/game-list.component';
 import { GameDetail } from './components/game-detail/game-detail';
 import { AddGameForm } from './components/add-game-form/add-game-form';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   // Default route: redirects empty path to the catalog list page
@@ -10,8 +11,8 @@ export const routes: Routes = [
   // Standard catalog listing route
   { path: 'games', component: GameListComponent },
   
-  // Route to the new game addition reactive form
-  { path: 'games/add', component: AddGameForm },
+  // Route to the new game addition reactive form secured with route guard
+  { path: 'games/add', component: AddGameForm, canActivate: [authGuard] },
   
   // Dynamic parameter route: matches paths like /games/1 or /games/abc
   { path: 'games/:id', component: GameDetail },

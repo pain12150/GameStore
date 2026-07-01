@@ -1,4 +1,4 @@
-w<main class="min-h-screen bg-[#07080f] py-8 px-4 flex flex-col items-center">
+<main class="min-h-screen bg-[#07080f] py-8 px-4 flex flex-col items-center">
   <!-- Dynamic Navigation Header -->
   <header class="app-header w-full max-w-5xl">
     <div class="header-logo">
@@ -13,6 +13,14 @@ w<main class="min-h-screen bg-[#07080f] py-8 px-4 flex flex-col items-center">
       <a routerLink="/games/add" routerLinkActive="active-link" class="nav-link">
         <span class="nav-dot"></span> Add Game
       </a>
+
+      <!-- Cart summary badge reading from public signals -->
+      <div class="cart-summary">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count"><strong>{{ cartService.totalItems() }}</strong> items</span>
+        <span class="cart-divider">|</span>
+        <span class="cart-price"><strong>${{ cartService.totalPrice() | number:'1.2-2' }}</strong></span>
+      </div>
     </nav>
   </header>
 

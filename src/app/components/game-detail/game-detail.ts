@@ -27,6 +27,9 @@ export class GameDetail implements OnInit {
       next: (games: Game[]) => {
         // Look up the game matching the parsed ID
         this.game = games.find(g => g.id === gameId);
+      },
+      error: (err) => {
+        console.error('Error fetching game details: ', err);
       }
     });
   }

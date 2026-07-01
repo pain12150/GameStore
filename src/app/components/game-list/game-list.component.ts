@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { GameService, Game } from '../../services/game'; // Import service class and interface
+import { GameCardComponent } from '../game-card/game-card';
 
 @Component({
   selector: 'app-game-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, GameCardComponent],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css'
 })
@@ -20,7 +21,6 @@ export class GameListComponent implements OnInit {
   games: Game[] = [];
 
   // Injecting the service in the class constructor
-  // private keyword automatically creates a local class variable 'gameService'
   constructor(private gameService: GameService) {}
 
   // ngOnInit runs automatically once the component is initialized in the DOM
@@ -57,18 +57,9 @@ export class GameListComponent implements OnInit {
     });
   }
 
-  // Method to toggle availability of a game and persist it in the database
-  toggleAvailability(game: Game): void {
-    game.available = !game.available;
-    this.gameService.updateGame(game).subscribe({
-      next: (updatedGame) => {
-        console.log('Successfully updated availability:', updatedGame);
-      },
-      error: (err) => {
-        console.error('Error updating game availability:', err);
-        // Rollback state locally if update fails
-        game.available = !game.available;
-      }
-    });
+  // Parent handler for child component remove emitter
+  onRemoveGame(gameId: number): void {
+    this.games = this.games.filter(g => g.id !== gameId);
+    console.log(`[Parent Component] Removed game ID: ${gameId}`);
   }
 }

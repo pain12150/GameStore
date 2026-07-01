@@ -65,37 +65,10 @@
     } @else {
       <div class="game-grid">
         @for (game of games; track game.id) {
-          <article class="game-card" [class.is-unavailable]="!game.available">
-            <div class="card-glow"></div>
-            
-            <div class="card-body">
-              <div class="card-header">
-                <span class="game-id">#{{ game.id }}</span>
-                <span class="price-tag">${{ game.price | number:'1.2-2' }}</span>
-              </div>
-              
-              <h2 class="game-title">{{ game.title }}</h2>
-              
-              <div class="card-footer">
-                @if (game.available) {
-                  <span class="status-badge status-in-stock">
-                    <span class="indicator"></span> In Stock
-                  </span>
-                } @else {
-                  <span class="status-badge status-out-of-stock">
-                    <span class="indicator"></span> Out of Stock
-                  </span>
-                }
-                
-                <div class="card-actions">
-                  <a [routerLink]="['/games', game.id]" class="btn-link">View Details</a>
-                  <button (click)="toggleAvailability(game)" class="btn-action">
-                    Toggle Status
-                  </button>
-                </div>
-              </div>
-            </div>
-          </article>
+          <app-game-card 
+            [game]="game" 
+            (remove)="onRemoveGame($event)">
+          </app-game-card>
         }
       </div>
     }
